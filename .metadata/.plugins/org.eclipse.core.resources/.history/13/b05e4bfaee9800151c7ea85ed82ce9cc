@@ -1,0 +1,48 @@
+'''
+Created on 
+
+@author: liufeng
+'''
+import hashlib
+from urllib import request, parse
+
+class ApiTest:
+    
+    def excute_api(self,ip,content):
+        req=request.Request(ip)
+        b = eval(content)
+        request_data=parse.urlencode(content)
+        self.f = request.urlopen(req, data=request_data.encode('utf-8')).read()
+        return self.f
+    
+    def comp_api_content(self,expect,result,symbol):
+        result2=str(result)
+        if (symbol == "in"):
+            if(expect in result2):
+                return True
+            else:
+                return False
+        elif(symbol == "notin"):
+            if(expect not in result2):
+                return True
+            else:
+                return False
+        elif(symbol== "="):
+            if(expect == result2):
+                return True
+            else:
+                return False
+        else:
+            return True
+        
+    def get_string_md5(self, code):
+        md5value = hashlib.md5(code.encode('utf-8')).hexdigest()
+        return md5value
+    
+    def get_file_md5(self,name):
+        m = hashlib.md5()
+        file = open(name, 'rb')
+        m.update(file.read())
+        file.close()
+        return m.hexdigest()
+        

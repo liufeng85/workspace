@@ -1,0 +1,152 @@
+# -*- encoding: utf-8 -*-
+'''
+
+Rough version history:
+v1.0    Original version to use
+
+********************************************************************
+    @AUTHOR:  Administrator-Liu(刘峰)
+    MAIL:     liufeng@frxs.com
+    RCS:      frxs.com.frxs_common,v 1.0 2014年5月29日
+    FROM:   2014年5月29日
+********************************************************************
+            Copyright (c) 2015-2020  兴盛社区网络服务有限公司
+======================================================================
+
+Provide a function for the test of web services
+
+'''
+from imp import reload
+from xlrd.timemachine import xrange
+
+__version__ = 3.0
+
+__all__ = [
+    'get_info_script',
+    'get_info_hostname',
+    'get_stamp_date',
+    'get_stamp_datetime',
+    'get_stamp_datetime_coherent',
+    'add_unique_postfix',
+    'get_value_from_cfg',
+    'get_exception_error',
+    'force_delete_file',
+    'mkdirs',
+    ]
+
+import os,sys,time,configparser
+
+    
+PROJECT_PATH        = ""
+
+PROJECT_CFG_FILE    = ""
+CASE_PKG_PATH       = ""
+DATA_PATH           = ""
+BUFFER_PATH         = ""
+RST_PATH            = ""
+RST_CASE_LOG_PATH   = ""
+
+MODULE_NAME         = ""
+MODULE_START_TIME   = ""
+MODULE_STOP_TIME    = ""
+
+CASE_NAME           = ""
+CASE_START_TIME     = ""
+CASE_STOP_TIME      = ""
+CASE_PASS           = ""
+
+REPORT_DATA         = []
+
+config              = ""
+    
+def debug_env():
+    ''' Set the environment to debug pyrunner '''
+    global PROJECT_PATH,PROJECT_CFG_FILE,CASE_PKG_PATH,DATA_PATH,BUFFER_PATH,RST_PATH,RST_CASE_LOG_PATH
+
+    #########    
+    reload(sys)
+    getattr(sys, "setdefaultencoding")("utf-8")
+    
+    #########
+    PROJECT_PATH        = r"D:\auto\python\twsm"    
+    # 测试项目初始化
+    PROJECT_CFG_FILE  = os.path.join(PROJECT_PATH,"config.ini")
+    CASE_PKG_PATH     = os.path.join(PROJECT_PATH,"testcase")
+    DATA_PATH         = os.path.join(PROJECT_PATH,"data")
+    BUFFER_PATH       = os.path.join(PROJECT_PATH,"buffer")
+    RST_PATH          = os.path.join(PROJECT_PATH,"result")
+    RST_CASE_LOG_PATH = os.path.join(PROJECT_PATH,"result","testcase")   
+    
+
+def get_stamp_date():    
+    return time.strftime("%Y-%m-%d")
+
+def get_stamp_datetime():    
+    return time.strftime("%Y-%m-%d %H:%M:%S")
+
+def get_stamp_datetime_coherent():    
+    return time.strftime("%Y-%m-%d_%H_%M_%S")
+
+def add_unique_postfix(fn):
+    '''
+    Sample usage:
+        add_unique_postfix("test.txt")    
+    '''
+    fn = fn.encode("UTF-8")
+    
+    if not os.path.exists(fn):
+        return fn
+
+    path, name = os.path.split(fn)
+    name, ext = os.path.splitext(name)
+
+    make_fn = lambda i: os.path.join(path, '%s_%d%s' % (name, i, ext))
+
+    for i in xrange(2, sys.maxsize):        
+        uni_fn = make_fn(i)
+        if not os.path.exists(uni_fn):            
+            return uni_fn
+    return None
+
+def force_delete_file(file_path):    
+    if os.path.isfile(file_path):
+        try:
+            os.remove(file_path)
+            return file_path
+        except:           
+            return add_unique_postfix(file_path)
+    else:
+        return file_path
+
+def mkdirs(dir_path):
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)        
+    
+def get_value_from_cfg():
+    ''' initial the configuration with file that you specify 
+        Sample usage:            
+            config = get_value_from_cfg()            
+        return:
+            return a dict        -->config[section][option]  such as config["twsm"]["dut_ip"]                
+    '''    
+    if not os.path.isfile(PROJECT_CFG_FILE):        
+        #raise Exception("\n\tcommon exception 1.1: file not exists '%s'." %(cfg_abspath))
+        return ""
+
+    cfg = {}   
+    config = configparser.RawConfigParser()
+    
+    try:
+        config.read(PROJECT_CFG_FILE)
+    except Exception:        
+        #raise Exception("\n\tcommon exception 1.2: Not a well format configuration file. error: '%s'" %(e))
+        return ""
+    sections = config.sections()
+    
+    for section in sections:
+        cfg[section] = {}
+        options = config.options(section)
+        for option in options: 
+            cfg[section][option]=config.get(section,option)
+#             print "cfg[%s][%s]\t=\t%s" %(section,option,cfg[section][option])
+    return cfg

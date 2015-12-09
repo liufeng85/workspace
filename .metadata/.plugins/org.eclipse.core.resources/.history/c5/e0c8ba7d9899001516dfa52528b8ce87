@@ -1,0 +1,4 @@
+casepath=F:\case.xlsx
+exportpath=F:\
+ipaddress=http://192.168.3.32:602
+logpath=F:\result.log

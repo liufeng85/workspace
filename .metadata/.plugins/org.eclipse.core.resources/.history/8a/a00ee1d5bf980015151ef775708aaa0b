@@ -1,0 +1,30 @@
+from com.autotest.Config import Config
+from com.autotest.ReadTestCase import ReadTestCase
+from com.autotest.ApiTest import ApiTest
+import xlrd
+
+def excuteTestCase():
+
+    a=Config()
+    case=ReadTestCase()
+    apitest=ApiTest()
+
+    path=a.get_case_path()
+    ip=a.get_ip_address()
+    #´ò¿ªÓÃÀý
+    f = xlrd.open_workbook(path)
+
+    test_case=f.sheet_by_name(u'test_case')
+    test_data=f.sheet_by_name(u'test_data')
+
+    test_case_num = len(test_case.col_values(0))
+    
+
+    for i in range(test_case_num):
+        method,test_step_data,test_expect_data=case.get_test_data(test_case,i)
+        if(method=="API"):
+            for t in test_step_data:
+                if (t=="SET_API_NAME"):
+                    
+            
+        

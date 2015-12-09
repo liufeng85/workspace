@@ -1,0 +1,70 @@
+'''
+Created on 
+
+@author: liufeng
+'''
+import hashlib
+import urllib
+import os
+
+from urllib import request, parse
+
+class ApiTest:
+    
+    def excute_api(self,ip,content):
+        req=request.Request(ip)
+        b = eval(content)
+        t_sign=b["sign"]
+        sign=self.get_string_md5(t_sign)
+        b["sign"] = sign
+        request_data=parse.urlencode(b)
+        self.f = request.urlopen(req, data=request_data.encode('utf-8')).read()
+        return self.f
+    
+    def comp_api_content(self,expect,result,symbol):
+        result2=str(result)
+        if (symbol == "in"):
+            if(expect in result2):
+                return True
+            else:
+                return False
+        elif(symbol == "notin"):
+            if(expect not in result2):
+                return True
+            else:
+                return False
+        elif(symbol== "="):
+            if(expect == result2):
+                return True
+            else:
+                return False
+        else:
+            return True
+        
+    def download_file(self,url,local):
+        urllib.request.urlretrieve(url, local)
+        
+    def comp_file(self,comp_file,local_file):
+        comp=self.get_file_md5(comp_file)
+        local=self.get_file_md5(local_file) as local:
+                if(local==comp):
+                    return True
+                else:
+                    return False
+        
+    def get_string_md5(self, code):
+        md5value = hashlib.md5(code.encode('utf-8')).hexdigest()
+        return md5value
+    
+    def get_file_md5(self,name):
+        if not os.path.isfile(name):
+            print("not file")
+        m = hashlib.md5()
+        try:
+            with open(name, 'rb') as file:
+                m.update(file.read())
+                file.close()
+        except Exception as e:
+            print(e)
+        return m.hexdigest()
+        

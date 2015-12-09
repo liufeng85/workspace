@@ -1,0 +1,5 @@
+casepath=F:\case.xlsx
+exportpath=F:\
+ipaddress=http://192.168.3.32
+logpath=F:\result.log
+DB=("host":"192.168.2.124","user":"sa","pwd":"1q@W3e","db":"FRXS_Data_V2.0")

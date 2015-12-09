@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;gallery/src/uploadimage/fields/ThumbnailImageField&apos; to &apos;ThumbnailImageField.py&apos;" description="Rename resource &apos;ThumbnailImageField&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/uploadimage/fields/ThumbnailImageField" name="ThumbnailImageField.py" stamp="1447030715318" updateReferences="true"/>
+</session>

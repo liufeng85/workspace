@@ -1,0 +1,52 @@
+# -*- coding: UTF-8 -*-
+import hashlib
+import xlrd
+import os
+from urllib import request, parse
+
+data = xlrd.open_workbook('E:\ApiTest.xlsx')
+table = data.sheets()[0]
+actionid = table.cell(0,1).value
+test_data=dict()
+'''
+file = xlwt.Workbook()
+sheet = file.add_sheet('md5',cell_overwrite_ok=True)
+'''
+row = 0
+for id in table.col_values(0):
+    if id == 'address':
+        url = table.cell(row,1).value
+        row = row + 1
+    else :
+        testdata_1 = id
+        if id == 'sign':
+            temp = table.cell(row,1).value
+            md5value = hashlib.md5(temp.encode('utf-8')).hexdigest()
+            testdata_2=md5value
+        else:
+            testdata_2 = table.cell(row,1).value
+        row = row + 1
+        test_data = dict(test_data,**{testdata_1:testdata_2})
+req = request.Request(url)
+request_data = parse.urlencode(test_data)
+f = request.urlopen(req, data=request_data.encode('utf-8')).read()
+open('E:\ApiTest.txt','w').write((f).decode('utf-8'))
+'''
+for k, v in f.getheaders():
+    print('%s: %s' % (k, v))
+    print('Data:', f.read().decode('utf-8'))
+print('Status:', f.status, f.reason)
+'''
+
+
+    #print (respsec)
+    #respsec = req.elapsed.microseconds()
+        
+    #shopid = str(id)[:-2]
+    #sign = actionid+shopid
+    #md5value = hashlib.md5(sign.encode('utf-8')).hexdigest()
+    #sheet.write(row,0,md5value)
+    #table.put_cell(row, 1, 1, md5value, 0)
+    #print(table.cell(row,1))
+    #row = row +1
+#file.save('E:\sign.xls')

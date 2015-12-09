@@ -1,0 +1,11 @@
+'''
+
+@author: Administrator
+'''
+import selenium.webdriver
+from selenium.webdriver.chrome.webdriver import WebDriver
+
+
+driver = selenium.webdriver.Firefox()
+
+driver.get("www.baidu.com")

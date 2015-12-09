@@ -1,0 +1,11 @@
+import com.autotest.ReadTestCase
+
+class ReadTestdata():
+    
+    def get_step_action_data(self,method,test_step_data,action_col_num):
+        row=0
+        if(method=="API"):
+            for t in test_step_data:
+                if (t=="SET_API_NAME"):
+                    
+                elif(t=="SET_API_DATA"):

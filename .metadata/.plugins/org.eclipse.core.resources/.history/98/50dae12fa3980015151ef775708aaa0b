@@ -1,0 +1,7 @@
+'''
+Created on 2015-12-2
+
+@author: Administrator
+'''
+def get_all_data(steps):
+    

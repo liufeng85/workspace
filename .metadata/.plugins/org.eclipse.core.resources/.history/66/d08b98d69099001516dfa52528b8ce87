@@ -1,0 +1,9 @@
+'''
+
+@author: Administrator
+'''
+import selenium.webdriver.chrome
+from selenium.webdriver.chrome.webdriver import WebDriver
+
+
+driver = webdriver.Firefox()

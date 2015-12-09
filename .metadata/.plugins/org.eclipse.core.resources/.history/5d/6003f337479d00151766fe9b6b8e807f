@@ -1,0 +1,8 @@
+'''
+@author: Administrator
+'''
+from splinter.browser import Browser
+
+class Buy:
+    
+    b=Browser(driver_name="chrome")

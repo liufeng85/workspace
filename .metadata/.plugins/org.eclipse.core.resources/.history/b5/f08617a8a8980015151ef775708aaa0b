@@ -1,0 +1,19 @@
+'''
+Created on
+
+@author: Administrator
+'''
+
+def get_col_num(sheet):
+    row=sheet.row_values(0)
+    col=0
+    for n in row:
+        if(n=="ACTION"):
+            action_col_num=col
+            col+=col
+        elif(n=="VALUE"):
+            value_col_num=col
+            col+=col
+        else:
+            col+=col
+    return action_col_num,value_col_num

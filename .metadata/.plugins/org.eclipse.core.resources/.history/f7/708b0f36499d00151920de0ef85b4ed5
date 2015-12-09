@@ -1,0 +1,13 @@
+'''
+@author: Administrator
+'''
+from splinter.browser import Browser
+
+    
+b=Browser(driver_name="chrome")
+
+url="https://kyfw.12306.cn/otn/leftTicket/init"
+    
+b.visit(url)
+
+

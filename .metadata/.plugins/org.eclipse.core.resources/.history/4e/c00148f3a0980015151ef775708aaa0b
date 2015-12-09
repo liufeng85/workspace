@@ -1,0 +1,30 @@
+import re
+
+class ReadTestCase:
+   
+    def get_test_data(self,sheet,test_case_num):
+        model_col = 0
+        test_step_col = 0
+        expect_col = 0
+        temp_col = 0
+        names = sheet.row_values(0)
+        for i in range(len(names)):
+            if(sheet.cell(0, i).value == "model"):
+                model_col = temp_col
+                temp_col = temp_col + 1
+            elif(sheet.cell(0, i).value == "test_step"):
+                test_step_col = temp_col
+                temp_col = temp_col + 1
+            elif(sheet.cell(0, i).value == "expect"):
+                expect_col = temp_col
+                temp_col = temp_col + 1
+            else:
+                temp_col = temp_col + 1
+        test_case_step = sheet.cell(test_case_num, test_step_col).value
+        test_case_model = sheet.cell(test_case_num, model_col).value
+        test_case_expect = sheet.cell(test_case_num, expect_col).value
+        tmp = re.compile(r'testdata:\d+')
+        test_step_data = tmp.findall(test_case_step)
+        test_expect_data = tmp.findall(test_case_expect)
+        test_step_data.extend(test_expect_data)
+        return test_case_model,test_step_data

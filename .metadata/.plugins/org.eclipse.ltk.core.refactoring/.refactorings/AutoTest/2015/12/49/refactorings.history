@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;AutoTest/src/com/autotest/frxs_common&apos; to &apos;frxs_common.py&apos;" description="Rename resource &apos;frxs_common&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/com/autotest/frxs_common" name="frxs_common.py" stamp="1448934666131" updateReferences="true"/>
+</session>

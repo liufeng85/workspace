@@ -1,0 +1,36 @@
+'''
+@author: Administrator
+'''
+from splinter.browser import Browser
+
+    
+b=Browser(driver_name="chrome")
+
+url="https://kyfw.12306.cn/otn/leftTicket/init"
+    
+b.visit(url)
+
+b.find_by_text(u"µÇÂ¼").click()
+
+b.fill("loginUserDTO.user_name","lf8509")
+
+b.fill("userDTO.password","lf850913")
+
+
+b.wait(5)
+
+
+b.cookies.all()
+
+
+b.cookies.add({"_jc_save_fromStation":"%u5E7F%u5DDE%2CGZQ"})
+b.cookies.add({"_jc_save_toStation":"%u957F%u6C99%2CCSQ"})
+b.cookies.add({"_jc_save_fromDate":"2016-01-18"})
+
+b.cookies.all()
+
+
+b.reload()
+
+
+b.find_by_text(u'²éÑ¯').click()

@@ -1,0 +1,99 @@
+from com.autotest.Config import Config
+from com.autotest.ReadTestCase import ReadTestCase
+from com.autotest.ReadTestData import ReadTestdata
+from com.autotest.ExcelForm import get_data_col_num
+from com.autotest.ApiTest import ApiTest
+import xlrd,os,logging
+
+def main():
+    logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                datefmt='%a, %d %b %Y %H:%M:%S',
+                filename=r'f:\autotest.log',
+                filemode='w')
+
+    conf                   =Config()
+    case                   =ReadTestCase()
+    data                   =ReadTestdata()
+    apitest                =ApiTest()
+    
+    path                   =conf.get_case_path()
+    ip                     =conf.get_ip_address()
+    
+    testcase               =xlrd.open_workbook(path)
+
+    test_case_sheet        =testcase.sheet_by_name(u'test_case')
+    test_data_sheet        =testcase.sheet_by_name(u'test_data')
+    action_col_num,value_col_num = get_data_col_num(test_data_sheet)
+    test_data_num          =test_data_sheet.nrows
+
+    test_case_num = len(test_case_sheet.col_values(0))-1
+
+    for i in range(test_case_num):
+        request_data=""
+        j=0
+        k=0
+        l=0
+        m=0
+        result=""
+        in_result=True
+        action_row_numbers=[]
+        value_row_numbers=[]
+        method,test_step_data,test_expect_data=case.get_test_data(test_case_sheet,i+1)
+        for t in range(test_data_num):
+            if(j<=len(test_step_data)-1):
+                if(test_data_sheet.cell(t,0).value==test_step_data[j]):
+                    action_row_numbers.append(t)
+                    j+=1
+        for t in range(test_data_num):
+            if(k<=len(test_expect_data)-1):
+                if(test_data_sheet.cell(t,0).value==test_expect_data[k]):
+                    value_row_numbers.append(t)
+                    k+=1
+        step_action_data,step_value_data=data.get_step_data(test_data_sheet, action_row_numbers, action_col_num, value_col_num)
+        expect_action_data,expect_value_data=data.get_step_data(test_data_sheet, value_row_numbers, action_col_num, value_col_num)
+        if(method=="API"):
+            for ac in step_action_data:
+                if(ac=="SET_API_NAME"):
+                    ip=ip+step_value_data[l]
+                    l+=1
+                elif(ac=="SET_API_REQUEST"):
+                    request_data=step_value_data[l]
+                    l+=1
+                else:
+                    l+=1
+            try:
+                result = apitest.excute_api(ip, request_data).decode("utf-8")
+                print(result)
+            except Exception as e:
+                logging("testcase:%s fail,reason:%s" %(ip,e))
+            for ea in expect_action_data:
+                if(not in_result):
+                    break
+                else:
+                    if(ea=="RESULT_IN"):
+                        in_result=apitest.comp_api_content(expect_value_data[m], result, "in")
+                        m+=1
+                    elif(ea=="RESULT_EQUAL"):
+                        in_result=apitest.comp_api_content(expect_value_data[m], result, "=")
+                        m+=1
+                    elif(ea=="RESULT_NOT_IN"):
+                        in_result=apitest.comp_api_content(expect_value_data[m], result, "notin")
+                        m+=1
+                    elif(ea=="FILE_IN"):
+                        download_path,local_file=expect_value_data[m].split("|")
+                        temp_path=download_path.split("/")
+                        file_name=temp_path[-1]
+                        export_path=conf.get_export_path()
+                        export_path=os.path.join(export_path,file_name)
+                        apitest.download_file(download_path, export_path)
+                        in_result=apitest.comp_file(export_path, local_file)
+                        m+=1
+                    else:
+                        m+=1
+            if(in_result):
+                logging.debug("API:%s is pass" %(ip))
+            else:
+                logging.debug("API:%s is fail" %(ip))
+
+main()        

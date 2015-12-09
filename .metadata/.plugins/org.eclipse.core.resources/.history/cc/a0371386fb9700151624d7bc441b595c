@@ -1,0 +1,33 @@
+'''
+Created on 
+
+@author: liufeng
+'''
+from urllib import request, parse
+
+class ApiTest:
+    
+    def excute_api(self,ip,content):
+        req=request.Request(ip)
+        request_data=parse.urlencode(content)
+        self.f = request.urlopen(req, data=request_data.encode('utf-8')).read()
+        return self.f
+    
+    def comp_api_content(self,expect,result,symbol):
+        if (symbol == "in"):
+            if(expect in result):
+                return True
+            else:
+                return False
+        elif(symbol == "notin"):
+            if(expect not in result):
+                return True
+            else:
+                return False
+        elif(symbol== "="):
+            if(expect == result):
+                return True
+            else:
+                return False
+        else:
+            return False

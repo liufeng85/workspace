@@ -1,0 +1,29 @@
+from com.autotest.ApiTest import ApiTest
+import re
+from com.autotest.DataBaseConf import MSSQL
+from com.autotest.Config import Config
+
+#t=ApiTest()
+
+#t.download_file(r"http://image.frxs.cn/Storage/master/product/images/1510121641479479.JPG", r"F:/2.JPG")
+
+
+ccc=Config()
+conf=ccc.get_DB_conf()
+aaa= MSSQL(conf)
+bbb=aaa.ExecQuery("select * from WC_WarehouseInfo where WID = 11974")
+a=bbb[0][1]
+print(a)
+
+b=a.encode('utf-8','ignore')
+
+e=b.decode('GB18030','ignore')
+print(e)
+
+def str2bin(strText):
+    b = bytes((ord(i) for i in strText))
+    return b
+
+def getCode(strText,codec):
+    b = bytes((ord(i) for i in strText))  
+    return b.decode(codec)

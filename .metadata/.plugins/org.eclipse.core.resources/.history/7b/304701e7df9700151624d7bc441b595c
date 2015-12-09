@@ -1,0 +1,24 @@
+'''
+Created on
+
+@author: Administrator
+'''
+import os
+
+class config:
+    
+    def set_all_path(self):
+        path = os.getcwd()
+        f = open(path + "config.txt")
+        try:
+            for line in f:
+                conf_name, value = line.split("=")
+                if (conf_name == "casepath"):
+                    casepath = value
+                elif(conf_name == ""):
+                    exportpath = value
+                else:
+                    continue
+        except Exception, e:
+            print(e)
+        

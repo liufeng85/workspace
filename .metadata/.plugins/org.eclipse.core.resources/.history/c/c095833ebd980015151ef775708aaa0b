@@ -1,0 +1,14 @@
+import com.autotest.ReadTestCase
+import com.autotest.ExcelForm
+from com.autotest import ExcelForm
+
+class ReadTestdata():
+    excelcols=ExcelForm()
+    
+    def get_step_action_data(self,method,test_step_data):
+        row=0
+        if(method=="API"):
+            for t in test_step_data:
+                if (t=="SET_API_NAME"):
+                    
+                elif(t=="SET_API_DATA"):

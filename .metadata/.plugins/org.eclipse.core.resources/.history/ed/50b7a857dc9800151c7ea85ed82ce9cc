@@ -1,0 +1,14 @@
+import re
+from com.autotest.ExcelForm import get_case_col_num
+class ReadTestCase:
+    global tmp
+    tmp = re.compile(r'testdata:\d+')
+   
+    def get_test_data(self,sheet,test_case_num):
+        model_col,test_step_col,expect_col=get_case_col_num(sheet)
+        test_case_step = sheet.cell(test_case_num, test_step_col).value
+        test_case_model = sheet.cell(test_case_num, model_col).value
+        test_case_expect = sheet.cell(test_case_num, expect_col).value
+        test_step_data = tmp.findall(test_case_step)
+        test_expect_data = tmp.findall(test_case_expect)
+        return test_case_model,test_step_data,test_expect_data

@@ -1,0 +1,41 @@
+import hashlib
+import xlrd
+from com.autotest.Config import Config
+import re
+
+class ReadTestCase:
+    
+    def getEncrypt(self,code):
+        md5value = hashlib.md5(code.encode('utf-8')).hexdigest()
+        return md5value
+    
+    def get_test_data(self,test_case_num):
+        model_col              =0
+        test_step_col          =0
+        expect_col             =0
+        temp_col               =0
+        test_data=[]
+        a=Config()
+        con=a.get_case_path()
+        f=xlrd.open_workbook(con)
+        test_case=f.sheet_by_name(u'test_case')
+        names=test_case.row_values(0)
+        print(len(names))
+        for i in range[0,len(names)]:
+            if(test_case.cell(0,i).value == "model"):
+                model_col = temp_col
+                temp_col=temp_col+1
+            elif(test_case.cell(0,i).value== "test_step"):
+                test_step_col = temp_col
+                temp_col=temp_col+1
+            elif(test_case.cell(0,i).value== "expect"):
+                expect_col = temp_col
+                temp_col=temp_col+1
+            else:
+                temp_col=temp_col+1
+        test_case_step=test_case.cell(test_case_num,test_step_col).value
+        test_case_model=test_case.cell(test_case_num,model_col).value
+        test_case_expect=test_case.cell(test_case_num,expect_col).value
+        test_data=re.findall(r"testdata:+\d+$",test_case_step) 
+        test_data=test_data.append(re.findall(r"testdata:+\d+$", test_case_expect))
+        return test_case_model,test_data

@@ -1,0 +1,11 @@
+'''
+Created on 2015Äê12ÔÂ1ÈÕ
+
+@author: Administrator
+'''
+import os,re
+
+class config:
+    
+    def set_all_path(self):
+        

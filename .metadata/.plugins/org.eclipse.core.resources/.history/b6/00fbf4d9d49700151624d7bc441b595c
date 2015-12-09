@@ -1,0 +1,12 @@
+'''
+Created on 2015Äê12ÔÂ1ÈÕ
+
+@author: Administrator
+'''
+import os,re
+
+global CONF_PATH,OP_PATH
+
+def get_conf_path():
+    CONF_PATH=os.getcwd()
+    return CONF_PATH

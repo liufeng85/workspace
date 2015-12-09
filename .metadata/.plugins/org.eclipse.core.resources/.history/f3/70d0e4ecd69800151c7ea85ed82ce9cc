@@ -1,0 +1,9 @@
+class ReadTestdata():
+    
+    def get_step_data(self,sheet,test_step_data,action_col_num,value_col_num):
+        action_data   =[]
+        value_data    =[]
+        for t in len(test_step_data):
+            action_data.append(sheet.cell(t+1,action_col_num).value)
+            value_data.append(sheet.cell(t+1,value_col_num).value)
+        return action_data,value_data

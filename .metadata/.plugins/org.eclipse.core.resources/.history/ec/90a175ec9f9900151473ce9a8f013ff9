@@ -1,0 +1,5 @@
+casepath=F:\case.xlsx
+exportpath=F:\
+ipaddress=http://192.168.3.32
+logpath=F:\result.log
+DB=("host":"","user":"","pwd":"","db":"")

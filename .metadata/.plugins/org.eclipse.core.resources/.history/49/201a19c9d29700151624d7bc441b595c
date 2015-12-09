@@ -1,0 +1,231 @@
+# -*- encoding: utf-8 -*-
+'''
+********************************************************************
+    @AUTHOR:  Administrator-Liu(刘峰)
+    MAIL:     liufeng@frxs.com
+    FROM:     2015年12月1日
+********************************************************************
+            Copyright (c) 2015-2020  兴盛社区网络服务股份有限公司
+======================================================================
+
+Provide a function for the test of web services
+
+'''
+
+__version__ = 2.0
+__all__ = [
+    'FrxsDPC', 
+    'desencode',
+    'desdecode',
+    ]
+
+import os,re,inspect,xlrd
+import frxs_common
+
+
+############################################################        datadriver for xls or xlsx       ############################################################
+class FrxsDPC():
+    ''' data process center '''
+    def __init__(self):
+        self.__info_script_pdpc = os.path.abspath(inspect.getfile(inspect.currentframe()))
+        self.__xls_file = os.path.join(frxs_common.DATA_PATH,"frxs.xlsx")
+    
+    def getXlsFile(self):
+        ''' get the absolute path of xls file for http 
+        Sample usage:
+            print getXlsFile()
+        '''
+        return self.__xls_file
+    
+    def setXlsFile(self,f_file):
+        ''' set the absolute path of Xls file for http 
+        Sampel usage:
+            setXlsFile(r"D:\auto\python\twsm\com\twsm.xls")
+        '''
+        f_file = os.path.abspath(f_file)
+        if os.path.isfile(f_file):
+            self.__xls_file = f_file
+        else:
+            raise Exception("\n\tfrxs_dpc exception 1.0: invalid director '%s'." %(f_file))
+    
+    def open_excel(self,excel,sheet):        
+        excel_file = os.path.join(frxs_common.DATA_PATH,excel)        
+        if os.path.isfile(excel_file):
+            excel = xlrd.open_workbook(excel_file)
+            self.sheet = excel.sheet_by_name(sheet)
+        else:
+            raise Exception("\n\tfrxs_dpc exception 2.0: invalid file '%s'." %(excel_file))        
+    
+    def excel_nrows(self):        
+        return self.sheet.nrows
+    
+    def excel_ncols(self):
+        return self.sheet.ncols
+    
+    def excel_cellxy(self, rowx, colx):
+        '''
+        Sample usage:
+            excel_cellxy(0,0)
+            excel_cellxy(1,2)
+        Return:
+            cell value      
+        '''
+        
+        cell_value = self.sheet.cell(rowx, colx).value
+        
+        if self.sheet.cell(rowx, colx).ctype in (2,3) and int(cell_value) == cell_value:
+            cell_value = int(cell_value)
+        
+        return str(cell_value)
+    
+    
+    def excel_cell(self, rowx, col_name):
+        ''' 
+        Sample usage:
+            excel_cell(0,"Title")
+            excel_cell(0,"Name")
+        return:
+            the cell value that the row is rowx and column is col_name you specify. 
+        '''        
+        for colx in xrange(0, self.excel_ncols()):
+            if self.excel_cellxy(0, colx) == col_name:
+                #log.step_normal("ExcelSheet.cellx(%s, %s)=[%s]" % (rowx, col_name, self.cellxy(rowx, colx)))
+                #print "ExcelSheet.cellx(%s, %s)=[%s]" % (rowx, col_name, self.excel_cellxy(rowx, colx))
+                return self.excel_cellxy(rowx, colx)
+    
+    ############################################################        Useless functions     ############################################################
+    def getXlsValue(self,sheet):
+        ''' analize the xls or xlsx file and get the source data
+        
+        Useless function
+        
+        Sample usage:
+            getXlsValue("Sheet1")
+        return:
+            self.kword
+        '''
+        
+        self.open_excel(self.__xls_file,sheet)
+        
+        self.kword = {} 
+        # 依据 TestCaseID 获取测试步骤信息
+        for i in xrange(1, self.excel_nrows()):            
+            scene       = self.excel_cell(i, "Scene")
+            case_id     = self.excel_cell(i, "TestCaseID")
+            step        = self.excel_cell(i, "Steps")
+            interface   = self.excel_cell(i, "Interface")
+            obj         = self.excel_cell(i, "Object")
+            action      = self.excel_cell(i, "Action")
+            value       = self.excel_cell(i, "Value")
+            recovery    = self.excel_cell(i, "Recovery")
+            comment     = self.excel_cell(i, "Comment")
+            
+            if not self.kword.has_key(case_id):
+                self.kword[case_id]={}
+            self.kword[case_id][step] = {"Scene":scene,"Interface":interface,"Object":obj,"Action":action,"Value":value,"Recovery":recovery,"Comment":comment}
+        
+#         for k,v in self.kword.items():
+#             steps=sorted(v.keys())
+#             for step in steps:                
+#                 print "%s => %s => %s" %(k,step,v[step])
+
+        
+    ############################################################        preference  functions for FRXS     ############################################################   
+    
+    def getXlsDataValue(self):
+        ''' analize the xls or xlsx file and get the fixed form data in the sheet named "TestData"
+        Sample usage:
+            getXlsCaseValue()
+        return:
+            testData
+        '''   
+        sheet = "TestData"
+        self.open_excel(self.__xls_file,sheet)
+        
+        testData = {}
+        
+        for i in xrange(1,self.excel_nrows()):
+            testData[i] = {}
+            testData[i]["Object"]   = self.excel_cell(i, "Object")
+            testData[i]["Action"]   = self.excel_cell(i, "Action")
+            testData[i]["Value"]   = self.excel_cell(i, "Value")
+        return testData
+        
+        
+        
+    def getXlsCaseValue(self):
+        ''' analize the xls or xlsx file and get the fixed form data in the sheet named "TestCase"
+        Sample usage:
+            getXlsCaseValue("Sheet1")
+        return:
+            testSet
+        '''
+        
+        sheet = "TestCase"
+        self.open_excel(self.__xls_file,sheet)
+        
+        # 依据 TestCaseID 获取测试步骤信息
+        testSet = {}
+        
+        scene = ""
+        for i in xrange(1, self.excel_nrows()):
+            scene_tmp = self.excel_cell(i, "Scene")
+            if not scene == scene_tmp and scene_tmp:
+                scene = scene_tmp
+                
+            case_id         = self.excel_cell(i, "TestCaseID")
+            if not case_id:
+                continue
+             
+            case_name       = self.excel_cell(i, "TestCaseName")
+            case_level      = self.excel_cell(i, "TestCaseLevel")
+            prepare         = self.excel_cell(i, "Prepare")
+            steps           = self.excel_cell(i, "Steps")
+            expect_result   = self.excel_cell(i, "ExpectResult")
+            test_result     = self.excel_cell(i, "TestResult")
+            comment         = self.excel_cell(i, "Comment")          
+            
+            prepare         = self.__generateCaseSteps(prepare)
+            steps           = self.__generateCaseSteps(steps)
+            expect_result   = self.__generateCaseSteps(expect_result)            
+            
+            testSet[case_id]={
+                            "SceneName":scene,
+                            "TestCaseName":case_name,
+                            "TestCaseID":case_id,                        
+                            "TestCaseLevel":case_level,
+                            "Prepare":prepare,
+                            "Steps":steps,
+                            "ExpectResult":expect_result,
+                            "TestResult":test_result,
+                            "Comment":comment                            
+                        }
+            
+        return testSet           
+        
+    def __generateCaseSteps(self,strs):
+        ''' format the string to steps 
+        Sample usage:
+            steps = __generateCaseSteps("asdfasdfsdf")
+            steps = __generateCaseSteps("1.asdfasdfsdf\n2.sodfi")
+        '''   
+        result = {}
+        prog_step   = re.compile("(\d+)\.(.*)");# 指定测试步骤应具有的，字符串格式.如 1.开启模式{TestData:12}
+        prog_msg    = re.compile(".*\{(.*)\}.*");# 指定测试步骤中，使用测试数据的，模板格式。如{TestData:12}
+        prog_testdata   = re.compile("(.+):(\d+$)");# 指定使用测试数据的，关键字应具有的格式. 如 TestData:12
+            
+        if strs:
+            step_string = prog_step.findall(strs)
+            if step_string:
+                for step in step_string:
+                    result["Step_%s_info" %step[0]] = step[1]
+                    template_string = prog_msg.search(step[1])                    
+                    if template_string:                        
+                        result["Step_%s" %step[0]] = template_string.group(1) 
+            else:
+                result["Step_1_info"] = strs
+        return result
+    
+    def test(self):
+        pass  
+

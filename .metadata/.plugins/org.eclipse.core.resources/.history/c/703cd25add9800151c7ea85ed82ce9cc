@@ -1,0 +1,41 @@
+'''
+Created on
+
+@author: Administrator
+'''
+
+def get_data_col_num(sheet):
+    row=sheet.row_values(0)
+    col=0
+    for n in row:
+        if(n=="ACTION"):
+            action_col_num=col
+            col+=col
+        elif(n=="VALUE"):
+            value_col_num=col
+            col+=col
+        else:
+            col+=col
+    return action_col_num,value_col_num
+
+def get_case_col_num(sheet):
+    #abc
+    global model_col_num,test_step_col_num,expect_col_num,col
+    model_col_num=0
+    test_step_col_num=0
+    expect_col_num=0
+    col=0
+    row=sheet.row_values(0)
+    for n in row:
+        if(n == "model"):
+            model_col_num = col
+            col = col+1
+        elif(n == "test_step"):
+            test_step_col_num = col
+            col = col + 1
+        elif(n == "expect"):
+            expect_col_num = col
+            col = col + 1
+        else:
+            col = col + 1
+    return model_col_num,test_step_col_num,expect_col_num

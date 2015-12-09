@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.javaeasy.writeandread.GoodDay.java&apos; to &apos;WriteDataToFile.java&apos;&#x0D;&#x0A;- Original project: &apos;Good&apos;&#x0D;&#x0A;- Original element: &apos;com.javaeasy.writeandread.GoodDay.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.javaeasy.writeandread.WriteDataToFile.java&apos;" description="Rename compilation unit &apos;GoodDay.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;com.javaeasy.writeandread{GoodDay.java" name="WriteDataToFile.java" references="false" stamp="1447653235282" version="1.0"/>
+</session>

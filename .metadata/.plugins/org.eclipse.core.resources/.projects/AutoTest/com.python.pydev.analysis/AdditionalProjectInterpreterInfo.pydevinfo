@@ -1,0 +1,76 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\Users\Administrator\workspace\.metadata\.plugins\org.eclipse.core.resources\.projects\AutoTest\com.python.pydev.analysis\v2_indexcache
+com.autotest.ExcelForm|1449051657299099000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\ExcelForm.py
+com.__init__|1449048348062179000|C:\Users\Administrator\workspace\AutoTest\src\com\__init__.py
+com.autotest.ApiTest|1449130807571490000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\ApiTest.py
+com.autotest.test|1449215064457297000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\test.py
+com.autotest.ExcuteTestCase|1449134436350005000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\ExcuteTestCase.py
+com.autotest.IosTest|1449046981759354000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\IosTest.py
+com.autotest.WebTest|1449129957718953000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\WebTest.py
+com.autotest.ReadTestCase|1449050787946968000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\ReadTestCase.py
+com.autotest.__init__|1449048354987680000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\__init__.py
+com.autotest.ReadTestData|1449053698166045000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\ReadTestData.py
+com.autotest.AndroidTest|1449046981754350000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\AndroidTest.py
+com.autotest.Config|1449217557944075000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\Config.py
+com.autotest.DataBaseConf|1449452453077561000|C:\Users\Administrator\workspace\AutoTest\src\com\autotest\DataBaseConf.py
+-- END DISKCACHE
+-- START DICTIONARY
+17
+4=com.autotest.ExcelForm
+11=Config.__init__
+2=com.autotest.ApiTest
+16=ReadTestdata
+10=Config
+1=com.autotest.test
+5=com.autotest.ExcuteTestCase
+9=MSSQL
+12=ApiTest
+17=ReadTestCase
+8=com.autotest.ReadTestCase
+13=MSSQL.__GetConnect
+15=ApiTest.excute_api
+7=com.autotest.ReadTestData
+3=com.autotest.Config
+6=com.autotest.DataBaseConf
+14=MSSQL.__init__
+-- END DICTIONARY
+-- START TREE 1
+13
+a|1|a!11@
+aaa|1|aaa!11@
+api|1|ApiTest!17@
+bbb|1|bbb!11@
+c|1|c!11@
+ccc|1|ccc!11@
+con|2|Config!25@conf!11@
+d|1|d!11@
+get|3|getCode!10@get_data_col_num!34@get_case_col_num!34@
+mai|1|main!42@
+mss|1|MSSQL!49@
+rea|2|ReadTestdata!57@ReadTestCase!65@
+str|2|str2bin!10@strtext!11@
+-- END TREE
+-- START TREE 2
+20
+__g|1|__GetConnect!9&50@
+__i|2|__init__!10&26@__init__!9&50@
+cas|1|casepath!11&27@
+com|2|comp_api_content!12&18@comp_file!12&18@
+con|1|conn!13&51@
+db|1|db!14&51@
+dbc|1|dbconf!11&27@
+dow|1|download_file!12&18@
+exc|1|excute_api!12&18@
+exe|2|ExecQuery!9&50@ExecNonQuery!9&50@
+exp|1|exportpath!11&27@
+f|1|f!15&19@
+get|10|get_step_data!16&58@get_case_path!10&26@get_log_path!10&26@get_file_md5!12&18@get_ip_address!10&26@get_DB_conf!10&26@get_export_path!10&26@get_test_data!17&66@getCode!9&50@get_string_md5!12&18@
+hos|1|host!14&51@
+ipa|1|ipaddress!11&27@
+log|1|logpath!11&27@
+pri|1|print_path!10&26@
+pwd|1|pwd!14&51@
+tmp|1|tmp!17&67@
+use|1|user!14&51@
+-- END TREE

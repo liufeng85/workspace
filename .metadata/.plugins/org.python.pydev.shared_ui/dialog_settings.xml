@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.python.pydev.django.debug.ui.actions.DjangoCustomCommand.shell">
+		<item value="511" key="width"/>
+		<item value="705" key="x"/>
+		<item value="242" key="y"/>
+		<item value="508" key="height"/>
+	</section>
+</section>

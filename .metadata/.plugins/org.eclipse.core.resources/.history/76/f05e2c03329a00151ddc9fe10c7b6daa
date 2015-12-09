@@ -1,0 +1,16 @@
+#encoding:utf8
+import sys
+
+import pymssql
+try:
+    conn=pymssql.connect(server='192.168.3.31',user='sa', password='1q@W3e',database='FRXS_Data_V2.0',charset='cp936')
+    sql="select * from WC_WarehouseInfo where WID = 11974"
+    cur=conn.cursor()
+    cur.execute(sql)
+    data=cur.fetchall()
+    conn.close()
+    for d in data:
+        print(d)
+    print (data)
+except Exception as e:
+    print (e)

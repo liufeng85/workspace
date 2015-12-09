@@ -1,0 +1,22 @@
+import com.autotest.ReadTestCase
+
+def get_col_num(sheet):
+    row=sheet.row_values(0)
+    col=0
+    for n in row:
+        if(n=="ACTION"):
+            action_col_num=col
+            col+=col
+        elif(n=="VALUE"):
+            value_col_num=col
+            col+=col
+
+def get_step_action_data(method,test_step_data):
+    if(method=="API"):
+        row=0
+        for t in test_step_data:
+            if (t=="SET_API_NAME"):
+                
+            elif(t=="SET_API_DATA"):
+                
+    
